@@ -76,34 +76,34 @@ const Payments = () => {
     const startEntry = totalEntries === 0 ? 0 : indexOfFirst + 1;
     const endEntry = Math.min(indexOfLast, totalEntries);
 
-    const handleFilter = () => {
-        const filtered = data.filter((item) => {
-            const itemDate = new Date(item.date);
-            const start = startDate ? new Date(startDate) : null;
-            const end = endDate ? new Date(endDate) : null;
+    // const handleFilter = () => {
+    //     const filtered = data.filter((item) => {
+    //         const itemDate = new Date(item.date);
+    //         const start = startDate ? new Date(startDate) : null;
+    //         const end = endDate ? new Date(endDate) : null;
 
-            const searchMatch =
-                item.product.toLowerCase().includes(search.toLowerCase()) ||
-                item.customerName.toLowerCase().includes(search.toLowerCase()) ||
-                item.paymentId.toLowerCase().includes(search.toLowerCase());
+    //         const searchMatch =
+    //             item.product.toLowerCase().includes(search.toLowerCase()) ||
+    //             item.customerName.toLowerCase().includes(search.toLowerCase()) ||
+    //             item.paymentId.toLowerCase().includes(search.toLowerCase());
 
-            const startMatch = start ? itemDate >= start : true;
-            const endMatch = end ? itemDate <= end : true;
+    //         const startMatch = start ? itemDate >= start : true;
+    //         const endMatch = end ? itemDate <= end : true;
 
-            return searchMatch && startMatch && endMatch;
-        });
+    //         return searchMatch && startMatch && endMatch;
+    //     });
 
-        setFilteredData(filtered);
-        setCurrentPage(1);
-    };
+    //     setFilteredData(filtered);
+    //     setCurrentPage(1);
+    // };
 
-    const handleReset = () => {
-        setSearch("");
-        setStartDate("");
-        setEndDate("");
-        setFilteredData([]);
-        setCurrentPage(1);
-    };
+    // const handleReset = () => {
+    //     setSearch("");
+    //     setStartDate("");
+    //     setEndDate("");
+    //     setFilteredData([]);
+    //     setCurrentPage(1);
+    // };
 
     const prevPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
