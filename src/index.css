@@ -747,7 +747,7 @@ html {
 }
 
 .card-total .card-icon {
-  background-color: #D1ECF1;
+  background-color: #019bb6;
   color: #17A2B8;
 }
 
@@ -952,7 +952,7 @@ tbody.table-bg-warpper-inner tr td {
   }
 }
 
-*/ .product-form_row {
+.product-form_row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
