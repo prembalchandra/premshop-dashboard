@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import { AiOutlineCheckCircle, AiOutlineExclamationCircle, AiOutlineCloseCircle } from "react-icons/ai";
-import { BsCreditCardFill } from "react-icons/bs";
+import { BsArrowLeft, BsArrowRight, BsCreditCardFill } from "react-icons/bs";
+import {
+    AiOutlineCheckCircle,
+    AiOutlineExclamationCircle,
+    AiOutlineCloseCircle,
+} from "react-icons/ai";
 
 const Payments = () => {
     const [search, setSearch] = useState("");
@@ -12,10 +15,10 @@ const Payments = () => {
 
     const itemsPerPage = 10;
 
-    // ✅ SAME DATA — बस paymentId ऐड किया गया
+    // ================= PAYMENT DATA =================
     const data = [
         {
-            
+            id: 1,
             paymentId: "PAY101",
             product: "iPhone 15",
             customerName: "John Doe",
@@ -25,7 +28,7 @@ const Payments = () => {
             img: "https://m.media-amazon.com/images/I/71d7rfSl0wL._SX679_.jpg",
         },
         {
-            
+            id: 2,
             paymentId: "PAY102",
             product: "Samsung S23",
             customerName: "Alice Smith",
@@ -35,7 +38,7 @@ const Payments = () => {
             img: "https://m.media-amazon.com/images/I/71PXwQzEKaL._SL1500_.jpg",
         },
         {
-            
+            id: 3,
             paymentId: "PAY103",
             product: "AirPods Pro",
             customerName: "Bob Johnson",
@@ -45,7 +48,7 @@ const Payments = () => {
             img: "https://m.media-amazon.com/images/I/61SUj2aKoEL._SL1500_.jpg",
         },
         {
-          
+            id: 4,
             paymentId: "PAY104",
             product: "MacBook Pro",
             customerName: "Emma Wilson",
@@ -55,7 +58,7 @@ const Payments = () => {
             img: "https://m.media-amazon.com/images/I/71bElkQQ7LL._SL1500_.jpg",
         },
         {
-           
+            id: 5,
             paymentId: "PAY105",
             product: "Smart Watch",
             customerName: "Michael Brown",
@@ -66,8 +69,10 @@ const Payments = () => {
         },
     ];
 
+    // ================= FILTER + PAGINATION =================
     const dataToShow = filteredData.length ? filteredData : data;
     const totalPages = Math.ceil(dataToShow.length / itemsPerPage);
+
     const indexOfLast = currentPage * itemsPerPage;
     const indexOfFirst = indexOfLast - itemsPerPage;
     const currentItems = dataToShow.slice(indexOfFirst, indexOfLast);
@@ -76,57 +81,56 @@ const Payments = () => {
     const startEntry = totalEntries === 0 ? 0 : indexOfFirst + 1;
     const endEntry = Math.min(indexOfLast, totalEntries);
 
-    // const handleFilter = () => {
-    //     const filtered = data.filter((item) => {
-    //         const itemDate = new Date(item.date);
-    //         const start = startDate ? new Date(startDate) : null;
-    //         const end = endDate ? new Date(endDate) : null;
+    // ================= FILTER HANDLER =================
+    const handleFilter = () => {
+        const filtered = data.filter((item) => {
+            const itemDate = new Date(item.date);
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
 
-    //         const searchMatch =
-    //             item.product.toLowerCase().includes(search.toLowerCase()) ||
-    //             item.customerName.toLowerCase().includes(search.toLowerCase()) ||
-    //             item.paymentId.toLowerCase().includes(search.toLowerCase());
+            const searchMatch =
+                item.paymentId.toLowerCase().includes(search.toLowerCase()) ||
+                item.product.toLowerCase().includes(search.toLowerCase()) ||
+                item.customerName.toLowerCase().includes(search.toLowerCase());
 
-    //         const startMatch = start ? itemDate >= start : true;
-    //         const endMatch = end ? itemDate <= end : true;
+            const startMatch = start ? itemDate >= start : true;
+            const endMatch = end ? itemDate <= end : true;
 
-    //         return searchMatch && startMatch && endMatch;
-    //     });
+            return searchMatch && startMatch && endMatch;
+        });
 
-    //     setFilteredData(filtered);
-    //     setCurrentPage(1);
-    // };
-
-    // const handleReset = () => {
-    //     setSearch("");
-    //     setStartDate("");
-    //     setEndDate("");
-    //     setFilteredData([]);
-    //     setCurrentPage(1);
-    // };
-
-    const prevPage = () => {
-        if (currentPage > 1) setCurrentPage(currentPage - 1);
+        setFilteredData(filtered);
+        setCurrentPage(1);
     };
 
-    const nextPage = () => {
-        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    const handleReset = () => {
+        setSearch("");
+        setStartDate("");
+        setEndDate("");
+        setFilteredData([]);
+        setCurrentPage(1);
     };
 
+    // ================= PAGINATION =================
+    const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+    const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
     const goToPage = (num) => setCurrentPage(num);
 
+    // ================= PAYMENT ICON =================
     const getPaymentIcon = (status) => {
         if (status === "Successful")
-            return <AiOutlineCheckCircle style={{ color: "green", fontSize: "20px", marginRight: "5px" }} />;
+            return <AiOutlineCheckCircle style={{ color: "green", marginRight: "5px" }} />;
         if (status === "Pending")
-            return <AiOutlineExclamationCircle style={{ color: "orange", fontSize: "20px", marginRight: "5px" }} />;
+            return <AiOutlineExclamationCircle style={{ color: "orange", marginRight: "5px" }} />;
         if (status === "Failed")
-            return <AiOutlineCloseCircle style={{ color: "red", fontSize: "20px", marginRight: "5px" }} />;
+            return <AiOutlineCloseCircle style={{ color: "red", marginRight: "5px" }} />;
     };
 
     return (
         <section className="section-saleproduct">
             <div className="sale-container">
+
+                {/* ================= HEADER ================= */}
                 <div className="dashboard_row">
                     <div className="dashboard_iocn">
                         <BsCreditCardFill />
@@ -136,28 +140,59 @@ const Payments = () => {
 
                 <div className="card-bg-warrper">
                     <div className="order-product_list">
-                        <div className="table-wrapper  table-responsive">
+
+                        {/* ================= FILTER BAR ================= */}
+                        <div className="filter-bar" style={{ display: "flex", gap: "10px", marginBottom: "15px", flexWrap: "wrap" }}>
+                            <input
+                                type="text"
+                                placeholder="Search Payment / Product / Customer"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                            />
+
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                            />
+
+                            <button onClick={handleFilter} className="btn-apply">
+                                Apply
+                            </button>
+
+                            <button onClick={handleReset} className="btn-reset">
+                                Reset
+                            </button>
+                        </div>
+
+                        {/* ================= TABLE ================= */}
+                        <div className="table-wrapper table-responsive">
                             <table className="sale-table">
-                                <thead className="table-bg-wrapper">
+                                <thead>
                                     <tr>
                                         <th>S.No</th>
-                                        <th>Payment ID</th>   
-                                        <th>Customer Product</th>
+                                        <th>Payment ID</th>
+                                        <th>Product Image</th>
                                         <th>Customer Name</th>
-                                        <th>Product Name</th>
-                                        <th>₹ Price</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
                                         <th>Date</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
 
-                                <tbody className="table-bg-wrapper-inner">
+                                <tbody>
                                     {currentItems.length ? (
                                         currentItems.map((item, index) => (
                                             <tr key={item.id}>
                                                 <td>{indexOfFirst + index + 1}</td>
                                                 <td>{item.paymentId}</td>
-                                               
                                                 <td>
                                                     <img
                                                         src={item.img}
@@ -165,38 +200,35 @@ const Payments = () => {
                                                         style={{
                                                             width: "40px",
                                                             height: "40px",
-                                                            objectFit: "cover",
                                                             borderRadius: "6px",
-                                                            border: "1px solid #ddd",
+                                                            objectFit: "cover",
                                                         }}
                                                     />
                                                 </td>
-
                                                 <td>{item.customerName}</td>
                                                 <td>{item.product}</td>
                                                 <td>{item.price}</td>
                                                 <td>{item.date}</td>
-
-                                                <td>
-                                                    <span className="payment-btn" style={{ display: "flex", alignItems: "center" }}>
-                                                        {getPaymentIcon(item.payment)}
-                                                        {item.payment}
-                                                    </span>
+                                                <td style={{ display: "flex", alignItems: "center" }}>
+                                                    {getPaymentIcon(item.payment)}
+                                                    {item.payment}
                                                 </td>
                                             </tr>
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="9" className="no-data">No Products Found</td>
+                                            <td colSpan="8" style={{ textAlign: "center" }}>
+                                                No Data Found
+                                            </td>
                                         </tr>
                                     )}
                                 </tbody>
                             </table>
                         </div>
 
-                        {/* Pagination */}
+                        {/* ================= PAGINATION ================= */}
                         <div className="pagination_info-row">
-                            <div className="table-info">
+                            <div>
                                 Showing {startEntry} to {endEntry} of {totalEntries} entries
                             </div>
 
